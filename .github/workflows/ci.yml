@@ -1,10 +1,31 @@
 # This is a basic workflow to help you get started with Actions
 name: CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+    matrix:
+    os: [ubuntu-lastest, windows-2016]
+    node-version: [8.x, 10.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    test:
+runs-on: ${{ matrix.os }}
+  strategy:
+    matrix:
+      os: [ubuntu-lastest, windows-2016]
+      node-version: [8.x, 10.x]
     # Steps represent a sequence of tasks that will be executed as part of the job
-steps:
+    steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-- uses: actions/checkout@v3
-- name: Run markdown lint
-run: |
-    npm install remark-cli remark-preset-lint-consistent
-npx remark . --use remark-preset-lint-consistent --frail
+    - uses: actions/checkout@v3
+    - name: Run markdown lint
+    run: |
+        npm install remark-cli remark-preset-lint-consistent
+        npx remark . --use remark-preset-lint-consistent --frail
